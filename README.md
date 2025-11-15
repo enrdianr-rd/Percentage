@@ -1,1 +1,1 @@
-# Percetage
+# Percentage
