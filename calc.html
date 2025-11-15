@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Percentage Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .input-field {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .result div {
+            margin: 10px 0;
+        }
+        .result span {
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .result span:last-child {
+            font-weight: normal;
+            color: #333;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .footer a {
+            text-decoration: none;
+            color: #3498db;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            .container h2 {
+                font-size: 22px;
+            }
+            .input-field {
+                font-size: 16px;
+                padding: 12px;
+            }
+            .result {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Price Percentage Calculator</h2>
+    <input type="number" id="price" class="input-field" placeholder="Enter price" oninput="calculatePercentages()">
+    
+    <div class="result">
+        <div><span>50% Off:</span> $<span id="percent50">0.00</span></div>
+        <div><span>40% Off:</span> $<span id="percent40">0.00</span></div>
+        <div><span>30% Off:</span> $<span id="percent30">0.00</span></div>
+        <div><span>20% Off:</span> $<span id="percent20">0.00</span></div>
+        <div><span>10% Off:</span> $<span id="percent10">0.00</span></div>
+    </div>
+
+    <div class="footer">
+        <p1>We Cannot Have Waste</p1>
+    </div>
+</div>
+
+<script>
+    function calculatePercentages() {
+        const price = parseFloat(document.getElementById('price').value);
+
+        if (!isNaN(price) && price >= 0) {
+            document.getElementById('percent50').textContent = (price - (price * 0.50)).toFixed(2);
+            document.getElementById('percent40').textContent = (price - (price * 0.40)).toFixed(2);
+            document.getElementById('percent30').textContent = (price - (price * 0.30)).toFixed(2);
+            document.getElementById('percent20').textContent = (price - (price * 0.20)).toFixed(2);
+            document.getElementById('percent10').textContent = (price - (price * 0.10)).toFixed(2);
+        } else {
+            document.getElementById('percent50').textContent = '0.00';
+            document.getElementById('percent40').textContent = '0.00';
+            document.getElementById('percent30').textContent = '0.00';
+            document.getElementById('percent20').textContent = '0.00';
+            document.getElementById('percent10').textContent = '0.00';
+        }
+    }
+</script>
+
+</body>
+</html>
