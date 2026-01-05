@@ -3,88 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price Percentage Calculator</title>
+    <title>Streamlined Departmental Markdown Calculator</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary: #2563eb;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --border: #e5e7eb;
+
+            /* Department Colors */
+            --deli-bg: #fffbe6;     /* Light Yellow */
+            --meat-bg: #fee2e2;     /* Light Red */
+            --bakery-bg: #f0fff4;   /* Light Green */
+            --success: #10b981;
+            --danger: #ef4444;
+            --info: #3b82f6;
+
+            /* Meat Specific Colors for Clarity */
+            --meat-header-bg: #fca5a5; 
+            --action-reweight: #9d174d; /* Dark Pink for Scale */
+            --action-sticker: #ca8a04;  /* Dark Yellow for Sticker */
+            --action-system: #059669;   /* Teal for System Discount */
+            --action-combined: #8a2be2; /* Blue-Violet for Scale + Sticker */
         }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f7f7f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-            color: #333;
+            padding: 10px;
+            margin: 0;
+            line-height: 1.4;
         }
+
         .container {
-            background-color: #fff;
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 900px;
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
             text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-        .container h2 {
-            font-size: 24px;
             margin-bottom: 20px;
-            color: #2c3e50;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
-        .input-field {
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
+
+        /* Input Section */
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 10px;
+            border: 2px solid var(--border);
             border-radius: 8px;
-            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        /* Alerts */
+        #managerAlert {
+            background-color: var(--meat-bg);
+            color: var(--danger);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
             margin-bottom: 20px;
-            outline: none;
-            transition: all 0.3s ease;
+            border: 2px solid #f87171;
+            display: none; 
         }
-        .input-field:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+
+        /* Cost Display */
+        .cost-display {
+            background-color: #ecfdf5;
+            border: 2px solid var(--success);
+            color: #064e3b;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
+        .cost-display h2 {
+            font-size: 0.8rem;
+            margin-top: 0;
         }
-        .result div {
-            margin: 10px 0;
+        .cost-display .price-val {
+            font-size: 1.8rem;
         }
-        .result span {
+
+        /* Discount Grid */
+        .discount-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 columns on mobile */
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .discount-card {
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 3px;
+            text-align: center;
+        }
+        
+        /* Highlight only for Unit Cost (Break-even) */
+        .cost-highlight {
+            border-color: var(--success) !important;
+            background-color: #ecfdf5 !important;
+            box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+        }
+        
+        .discount-percent {
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 4px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .discount-price {
+            font-size: 0.9rem;
             font-weight: bold;
-            color: #2980b9;
         }
-        .result span:last-child {
-            font-weight: normal;
-            color: #333;
+
+        /* --- Department Reference Grids --- */
+        .department-grid {
+            display: flex;
+            flex-direction: column; 
+            gap: 15px;
+            padding-top: 10px;
         }
-        .footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #7f8c8d;
+        
+        .reference-section {
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        .footer a {
-            text-decoration: none;
-            color: #3498db;
+        
+        /* Department Specific Styling */
+        .deli-rules { background-color: var(--deli-bg); border: 2px solid #facc15; }
+        .meat-rules { background-color: var(--meat-bg); border: 2px solid #f87171; }
+        .bakery-rules { background-color: var(--bakery-bg); border: 2px solid #6ee7b7; }
+
+        .reference-section h3 {
+            font-size: 1.1rem;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            border-bottom: 2px solid;
         }
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-            .container h2 {
-                font-size: 22px;
-            }
-            .input-field {
-                font-size: 16px;
-                padding: 12px;
-            }
-            .result {
-                font-size: 16px;
+        .deli-rules h3 { color: #854d0e; border-color: #facc15; }
+        .meat-rules h3 { color: #991b1b; border-color: #f87171; }
+        .bakery-rules h3 { color: #065f46; border-color: #6ee7b7; }
+
+        .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 15px; 
+        }
+
+        .rules-table th, .rules-table td {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        
+        .action-cell {
+            font-weight: bold;
+            color: var(--danger);
+        }
+
+        /* Meat Specific Styles */
+        .meat-header-bg {
+            background-color: var(--meat-header-bg);
+            font-weight: bold;
+            padding: 5px 0;
+            text-align: center !important;
+        }
+        .action-reweight {
+            color: var(--action-reweight); 
+            font-weight: 700;
+        }
+        .action-sticker {
+            color: var(--action-sticker); 
+            font-weight: 700;
+        }
+        .action-system {
+            color: var(--action-system); 
+            font-weight: 700;
+        }
+        .action-combined {
+            color: var(--action-combined); /* Blue-Violet */
+            font-weight: 700;
+        }
+
+        .meat-rules h4 {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 1rem;
+            color: #991b1b;
+            border-bottom: 1px solid #991b1b;
+            padding-bottom: 3px;
+        }
+
+        /* Simplified Action Key */
+        .action-key {
+            font-size: 0.85rem;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: #fecaca;
+            border: 1px solid #f87171;
+            margin-bottom: 15px;
+        }
+        .action-key span {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: 700;
+        }
+
+        /* Ground Meat Specific Rules Box */
+        .ground-meat-box {
+            border: 2px dashed #991b1b;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #fffaf0;
+            margin-top: 10px;
+        }
+        .ground-meat-box p {
+            margin: 5px 0;
+            padding-left: 10px;
+            border-left: 3px solid #991b1b;
+            font-size: 0.9rem;
+        }
+        
+        /* DESKTOP/TABLET OPTIMIZATION */
+        @media (min-width: 600px) {
+            .container { padding: 30px; }
+            .input-group { grid-template-columns: 1fr 1fr; }
+            .discount-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); } 
+            .discount-price { font-size: 1.05rem; }
+            .department-grid { 
+                flex-direction: row; 
+                display: grid; 
+                grid-template-columns: 1fr 1fr 1.5fr; 
             }
         }
     </style>
@@ -92,40 +274,259 @@
 <body>
 
 <div class="container">
-    <h2>Price Percentage Calculator</h2>
-    <input type="number" id="price" class="input-field" placeholder="Enter price" oninput="calculatePercentages()">
+    <h1>Departmental Markdown Calculator</h1>
+
+    <div class="input-group">
+        <div class="input-box">
+            <label for="regularPrice">Regular Price ($)</label>
+            <input type="number" id="regularPrice" placeholder="0.00" step="0.01">
+        </div>
+        <div class="input-box">
+            <label for="marginPercent">Margin (%)</label>
+            <input type="number" id="marginPercent" placeholder="0" step="0.1">
+        </div>
+    </div>
     
-    <div class="result">
-        <div><span>50% Off:</span> $<span id="percent50">0.00</span></div>
-        <div><span>40% Off:</span> $<span id="percent40">0.00</span></div>
-        <div><span>30% Off:</span> $<span id="percent30">0.00</span></div>
-        <div><span>20% Off:</span> $<span id="percent20">0.00</span></div>
-        <div><span>10% Off:</span> $<span id="percent10">0.00</span></div>
+    <div id="managerAlert">
+        🚨 **MANAGER APPROVAL NEEDED** 🚨 (Price is over $15.00)
     </div>
 
-    <div class="footer">
-        <p1>We Cannot Have Waste</p1>
+    <div class="cost-display">
+        <h2>UNIT COST (0% MARGIN - BREAK EVEN PRICE)</h2>
+        <div class="price-val" id="unitCost">$0.00</div>
+    </div>
+
+    <label class="discount-label" style="font-weight:bold;">Percentage Breakdown (Check Unit Cost Highlighted in Green)</label>
+    <div class="discount-grid" id="discountGrid">
+        </div>
+
+    <div class="department-grid">
+        
+        <div class="reference-section deli-rules">
+            <h3>🥪 Deli Markdowns</h3>
+            <table class="rules-table">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">Price</th>
+                        <th style="width: 35%;">Age/Criteria</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3" style="background-color: #fef3c7; font-weight: bold;">PRICE-BASED ALERTS:</td></tr>
+                    <tr><td colspan="2">Price **Over $15.00**</td><td class="action-cell">**MANAGER FIRST**</td></tr>
+                    <tr><td colspan="2">10-15 Days Old (Any Price)</td><td class="action-cell">Apply **$1 Sticker**</td></tr>
+                    <tr><td colspan="3" style="background-color: #fef3c7; font-weight: bold;">MAIN MARKDOWNS:</td></tr>
+                    
+                    <tr><td>**Under $7.00**</td><td>Less than 5 Days</td><td class="action-cell">**90% OFF** (Blowout Sale)</td></tr>
+                    <tr><td>**Between $8.00 - $15.00**</td><td>Less than 5 Days</td><td class="action-cell">**80% OFF** (Blowout Sale)</td></tr>
+                    
+                    <tr><td>**Under $7.00**</td><td>5 - 10 Days</td><td class="action-cell">70% OFF</td></tr>
+                    <tr><td>**Between $8.00 - $15.00**</td><td>5 - 10 Days</td><td class="action-cell">50% OFF</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reference-section meat-rules">
+            <h3>🥩 Meat Markdowns (Beef & Pork)</h3>
+            
+
+            <div class="action-key">
+                **ACTION KEY**: 
+                <span class="action-reweight">SCALE REWEIGHT</span> | 
+                <span class="action-sticker">STICKER MARKDOWN</span> | 
+                <span class="action-system">SYSTEM DISCOUNT</span>
+                <span class="action-combined">(SCALE + $1 STICKER)</span>
+            </div>
+            
+            <h4>1. BEEF & PORK CUTS (Price & Time-Based)</h4>
+            <table class="rules-table">
+                <thead>
+                    <tr><th style="width: 25%;">Days Out</th><th style="width: 35%;">Price Range</th><th>Action</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3" class="meat-header-bg">3 DAYS REMAINING</td></tr>
+                    <tr><td>3 Days</td><td>**Over $10.00**</td><td class="action-combined">**20% OFF (SCALE) + $1 OFF STICKER**</td></tr>
+                    <tr><td>3 Days</td><td>**Between $5.00 and $10.00**</td><td class="action-sticker">**30% OFF (STICKER)**</td></tr>
+                    <tr><td>3 Days</td><td>**Under $5.00**</td><td class="action-sticker">**50% OFF (STICKER)**</td></tr>
+                    
+                    <tr><td colspan="3" class="meat-header-bg">2 DAYS REMAINING</td></tr>
+                    <tr><td>2 Days</td><td>**Over $10.00**</td><td class="action-combined">**30% OFF (SCALE) + $1 OFF STICKER**</td></tr>
+                    <tr><td>2 Days</td><td>**Between $5.00 and $10.00**</td><td class="action-sticker">**50% OFF (STICKER)**</td></tr>
+                    <tr><td>2 Days</td><td>**Under $5.00**</td><td class="action-sticker">**50% OFF (STICKER)**</td></tr>
+
+                    <tr><td colspan="3" class="meat-header-bg">1 DAY REMAINING (TIME-BASED)</td></tr>
+                    <tr style="background-color: #fce7f3;">
+                        <td rowspan="3">1 Day <br>(8:00 AM - 2:00 PM)</td>
+                        <td>**Over $10.00**</td>
+                        <td class="action-combined">**50% OFF (SCALE) + $1 OFF STICKER**</td>
+                    </tr>
+                    <tr style="background-color: #fce7f3;">
+                        <td>**Between $5.00 and $10.00**</td>
+                        <td class="action-sticker">**50% OFF (STICKER)**</td>
+                    </tr>
+                    <tr style="background-color: #fce7f3;">
+                        <td>**Under $5.00**</td>
+                        <td class="action-sticker">**50% OFF (STICKER)**</td>
+                    </tr>
+                    <tr style="background-color: #fce7f3;">
+                        <td rowspan="3">1 Day <br>(2:00 PM - EOD)</td>
+                        <td>**Over $10.00**</td>
+                        <td class="action-combined">**70% OFF (SCALE) + $1 OFF STICKER**</td>
+                    </tr>
+                    <tr style="background-color: #fce7f3;">
+                        <td>**Between $5.00 and $10.00**</td>
+                        <td class="action-combined">**70% OFF (SCALE) + $1 OFF STICKER**</td>
+                    </tr>
+                    <tr style="background-color: #fce7f3;">
+                        <td>**Under $5.00**</td>
+                        <td class="action-combined">**70% OFF (SCALE) + $1 OFF STICKER**</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>2. GROUND MEAT & SAUSAGES (Sticker Priority)</h4>
+            <table class="rules-table">
+                <thead>
+                    <tr><th style="width: 35%;">Days Out</th><th style="width: 35%;">Criteria</th><th>Action</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3" class="meat-header-bg">3 DAYS & 2 DAYS REMAINING</td></tr>
+                    <tr><td>3 Days</td><td>**Any Under $5.00**</td><td class="action-sticker">30% OFF **(STICKER)**</td></tr>
+                    <tr><td>2 Days</td><td>**Any Under $5.00**</td><td class="action-sticker">50% OFF **(STICKER)**</td></tr>
+                </tbody>
+            </table>
+
+            <div class="ground-meat-box">
+                <p style="font-weight: 700; color:#991b1b;">1 DAY REMAINING - FINAL LOGIC (STOCK & TIME DEPENDENT)</p>
+                <p>— **Ground Pork, Chicken, Turkey**: <span class="action-sticker">**50% OFF (ALL DAY STICKER)**</span></p>
+                <p>— **Ground Beef**: <span class="action-sticker">**50% OFF (STICKER) STARTING 4:00 PM**</span></p>
+                <p style="border-left: 3px solid var(--action-system);">— **HIGH VOLUME STOCK (Any Ground)**: <span class="action-system">**70% SYSTEM DISCOUNT (Confirm with Manager)**</span></p>
+            </div>
+        </div>
+
+        <div class="reference-section bakery-rules">
+            <h3>🍞 Bakery Markdowns (By Shelf Life)</h3>
+            <table class="rules-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Shelf Life</th>
+                        <th style="width: 30%;">30% OFF (Early Sale)</th>
+                        <th>50% OFF (Final Clearance)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>**5 Days**</td><td>2 Days Before Exp</td><td class="action-cell">1 Day Left</td></tr>
+                    <tr><td>**7 Days**</td><td>3 Days Before Exp</td><td class="action-cell">2 Days Before Exp</td></tr>
+                    <tr><td>**14 Days**</td><td>4 Days Before Exp</td><td class="action-cell">3 Days Before Exp</td></tr>
+                    <tr><td>**21 Days**</td><td>5 Days Before Exp</td><td class="action-cell">4 Days Before Exp</td></tr>
+                    <tr style="background-color: #d1fae5;">
+                        <td>**28 - 30 Days**</td>
+                        <td>N/A</td>
+                        <td class="action-cell">5 Days Before Exp **(50% OFF ONLY)**</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
-    function calculatePercentages() {
-        const price = parseFloat(document.getElementById('price').value);
+    const priceInput = document.getElementById('regularPrice');
+    const marginInput = document.getElementById('marginPercent');
+    const unitCostDisplay = document.getElementById('unitCost');
+    const discountGrid = document.getElementById('discountGrid');
+    const managerAlert = document.getElementById('managerAlert');
 
-        if (!isNaN(price) && price >= 0) {
-            document.getElementById('percent50').textContent = (price - (price * 0.50)).toFixed(2);
-            document.getElementById('percent40').textContent = (price - (price * 0.40)).toFixed(2);
-            document.getElementById('percent30').textContent = (price - (price * 0.30)).toFixed(2);
-            document.getElementById('percent20').textContent = (price - (price * 0.20)).toFixed(2);
-            document.getElementById('percent10').textContent = (price - (price * 0.10)).toFixed(2);
-        } else {
-            document.getElementById('percent50').textContent = '0.00';
-            document.getElementById('percent40').textContent = '0.00';
-            document.getElementById('percent30').textContent = '0.00';
-            document.getElementById('percent20').textContent = '0.00';
-            document.getElementById('percent10').textContent = '0.00';
+    function calculate() {
+        const price = parseFloat(priceInput.value);
+        const margin = parseFloat(marginInput.value);
+
+        if (isNaN(price)) {
+            unitCostDisplay.textContent = "$0.00";
+            discountGrid.innerHTML = ''; 
+            managerAlert.style.display = 'none';
+            return;
+        }
+
+        // --- 1. Manager Alert Logic (Price only) ---
+        managerAlert.style.display = (price > 15) ? 'block' : 'none';
+
+        // --- 2. Unit Cost Logic ---
+        let cost = price;
+        if (!isNaN(margin)) {
+            cost = price * (1 - (margin / 100));
+        }
+        unitCostDisplay.textContent = formatMoney(cost);
+
+        // --- 3. Discount Loop (10% to 90%) ---
+        discountGrid.innerHTML = '';
+        const percentages = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+        
+        for (let i = 0; i < percentages.length; i++) {
+            const percentage = percentages[i];
+            const discountFactor = 1 - (percentage / 100);
+            let discountedPrice = price * discountFactor;
+            
+            const box = document.createElement('div');
+            box.className = 'discount-card';
+            
+            let displayPercent = `-${percentage}%`;
+            let displayPrice = formatMoney(discountedPrice);
+            
+            // Highlight only the Unit Cost (Break-even)
+            const costDiff = Math.abs(discountedPrice - cost);
+            if (costDiff < 0.05) { 
+                 box.classList.add('cost-highlight'); // Green for Unit Cost
+            }
+            
+            // Overriding 70% to show the specific 70% + $1 off price for the final meat markdown
+            // NOTE: The 70% + $1 OFF calculation is complex because it combines a percentage and dollar amount. 
+            // We use 70% here to show the resulting price calculation from this complex rule.
+            if (percentage === 70) {
+                 const finalPrice = price * 0.30 - 1; 
+                 if (finalPrice > 0) {
+                    displayPrice = formatMoney(finalPrice);
+                    displayPercent = `70% + $1 OFF`;
+                 }
+            }
+
+
+            // $1, $2, and $5 Off Labels (For reference)
+            if (percentage === 10) {
+                displayPercent = '$1 OFF';
+            } else if (percentage === 20) {
+                displayPercent = '$2 OFF';
+            } else if (percentage === 50) {
+                const price5off = price - 5;
+                if (price5off < discountedPrice && price > 5) {
+                    // This is a calculation for the $5 off sticker for high-price items
+                    displayPrice = formatMoney(price5off);
+                    displayPercent = `$5 OFF`;
+                }
+            }
+
+
+            box.innerHTML = `
+                <div class="discount-percent">${displayPercent}</div>
+                <div class="discount-price">${displayPrice}</div>
+            `;
+            discountGrid.appendChild(box);
         }
     }
+
+    function formatMoney(amount) {
+        const finalAmount = Math.max(0, amount); 
+        return '$' + finalAmount.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    priceInput.addEventListener('input', calculate);
+    marginInput.addEventListener('input', calculate);
+    
+    calculate();
 </script>
 
 </body>
