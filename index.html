@@ -14,21 +14,22 @@
             --red-price: #cc2936; 
 
             /* Department Colors */
-            --deli-bg: #fffbe6;     /* Light Yellow */
-            --meat-bg: #fee2e2;     /* Light Red */
-            --bakery-bg: #f0fff4;   /* Light Green */
+            --deli-bg: #fffbe6;     
+            --meat-bg: #fee2e2;     
+            --bakery-bg: #f0fff4;   
+            --seafood-bg: #ccfbf1;  
             --success: #10b981;
             --danger: #ef4444;
             --info: #3b82f6;
 
-            /* Meat Specific Colors for Clarity */
+            /* Action Colors */
             --meat-header-bg: #fca5a5;  
-            --action-reweight: #9d174d; /* Dark Pink for Scale */
-            --action-sticker: #ca8a04;  /* Dark Yellow for Sticker */
-            --action-system: #059669;   /* Teal for System Discount */
-            --action-combined: #8a2be2; /* Blue-Violet for Scale + Sticker */
-            --time-row-bg: #fce7f3; /* Light Pink for 1 Day Cuts Time Blocks */
-            --chicken-bg: #e6ffec; /* Very Light Green for Chicken Section */
+            --action-reweight: #9d174d; 
+            --action-sticker: #ca8a04;  
+            --action-system: #059669;   
+            --action-combined: #8a2be2; 
+            --time-row-bg: #fce7f3; 
+            --chicken-bg: #e6ffec; 
             --chicken-header: #99c6a1;
         }
 
@@ -38,7 +39,7 @@
             color: var(--text);
             display: flex;
             justify-content: center;
-            padding: 5px; /* Reduced body padding */
+            padding: 5px; 
             margin: 0;
             line-height: 1.4;
         }
@@ -47,15 +48,15 @@
             background-color: var(--card-bg);
             width: 100%;
             max-width: 900px;
-            padding: 15px; /* Reduced container padding for mobile */
+            padding: 15px; 
             border-radius: 12px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 15px; /* Reduced margin */
-            font-size: 1.4rem; /* Slightly smaller H1 */
+            margin-bottom: 15px; 
+            font-size: 1.4rem; 
             color: var(--primary);
         }
 
@@ -67,7 +68,7 @@
         .input-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px; /* Reduced gap */
+            gap: 10px; 
             margin-bottom: 20px;
         }
         
@@ -78,12 +79,21 @@
         }
 
         input {
-            padding: 8px; /* Adjusted padding */
+            padding: 8px; 
             border: 1px solid var(--border);
             border-radius: 6px;
-            font-size: 1.1rem; /* Slightly larger for easier tapping */
+            font-size: 1.1rem; 
+            width: 100%; 
+            box-sizing: border-box;
         }
-
+        
+        /* FIX: Narrowing the input fields on smaller screens */
+        @media (max-width: 599px) {
+            .input-box input {
+                max-width: 150px; 
+            }
+        }
+        
         /* Alerts */
         #managerAlert {
             background-color: var(--meat-bg);
@@ -109,11 +119,11 @@
             margin-bottom: 20px;
         }
         .cost-display h2 {
-            font-size: 0.75rem; /* Smaller sub-heading */
+            font-size: 0.75rem; 
             margin-top: 0;
         }
         .cost-display .price-val {
-            font-size: 1.6rem; /* Slightly smaller price */
+            font-size: 1.6rem; 
             font-weight: 700;
         }
 
@@ -121,14 +131,14 @@
         .discount-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
-            gap: 6px; /* Reduced gap */
+            gap: 6px; 
             margin-bottom: 25px;
         }
         
         .discount-card {
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 6px 2px; /* Reduced padding */
+            padding: 6px 2px; 
             text-align: center;
         }
         
@@ -139,7 +149,7 @@
         }
         
         .discount-percent {
-            font-size: 0.65rem; /* Smaller percentage label */
+            font-size: 0.65rem; 
             padding: 1px 3px;
             margin-bottom: 3px;
         }
@@ -148,10 +158,10 @@
             font-size: 0.8rem;
         }
         .original-price {
-            font-size: 0.75rem; /* Smaller original price */
+            font-size: 0.75rem; 
         }
         .rounded-price {
-            font-size: 0.95rem; /* Slightly smaller rounded price */
+            font-size: 0.95rem; 
         }
 
         /* --- Department Reference Grids --- */
@@ -164,34 +174,34 @@
         
         .reference-section {
             border-radius: 10px;
-            padding: 12px; /* Reduced section padding */
+            padding: 12px; 
         }
         
-        /* Department Specific Styling (No change) */
+        /* Department Specific Styling */
         .deli-rules { background-color: var(--deli-bg); border: 2px solid #facc15; }
         .meat-rules { background-color: var(--meat-bg); border: 2px solid #f87171; }
         .bakery-rules { background-color: var(--bakery-bg); border: 2px solid #6ee7b7; }
+        .seafood-rules { background-color: var(--seafood-bg); border: 2px solid #047857; } 
 
         .reference-section h3 {
-            font-size: 1.1rem; /* Slightly smaller H3 */
-            margin-bottom: 8px; /* Reduced margin */
+            font-size: 1.1rem; 
+            margin-bottom: 8px; 
         }
         
         .rules-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.8rem; /* Smaller table font for mobile */
+            font-size: 0.8rem; 
             margin-bottom: 10px; 
         }
 
         .rules-table th, .rules-table td {
-            padding: 4px 0; /* Reduced vertical padding */
+            padding: 4px 0; 
             border-bottom: 1px solid rgba(0,0,0,0.1);
             text-align: left;
             vertical-align: top;
         }
         
-        /* Added spacing between table rows for better scannability */
         .rules-table tr {
             margin-bottom: 4px; 
             display: table-row;
@@ -225,7 +235,7 @@
         }
 
         .meat-rules h4 {
-            margin-top: 10px; /* Reduced margin */
+            margin-top: 10px; 
             margin-bottom: 3px;
             font-size: 0.95rem;
             color: #991b1b;
@@ -240,7 +250,7 @@
             margin-bottom: 10px;
         }
         .action-key span {
-            display: block; /* Stack on mobile */
+            display: block; 
             margin-bottom: 4px;
             margin-right: 0 !important;
             line-height: 1.2;
@@ -283,19 +293,29 @@
             .reference-section h3 { font-size: 1.2rem; }
             .rules-table { font-size: 0.85rem; margin-bottom: 15px; }
             .rules-table th, .rules-table td { padding: 6px 0; }
-            .rules-table tr { margin-bottom: 0; } /* Reset row margin on desktop */
+            .rules-table tr { margin-bottom: 0; } 
 
             .department-grid { 
                 flex-direction: row; 
                 display: grid; 
-                grid-template-columns: 1fr 1fr 1.5fr; 
+                grid-template-columns: 1fr 1fr; 
                 gap: 20px;
             }
-            .meat-rules { grid-column: span 2; } /* Meat takes up two columns */
+            
+            /* TOP ROW SECTIONS (Deli, Bakery) */
+            .deli-rules { grid-column: span 1; }
             .bakery-rules { grid-column: span 1; }
             
+            /* BOTTOM ROW SECTIONS (Meat, Seafood) */
+            .meat-rules { grid-column: span 2; } /* Meat spans the full width of the grid */
+            .seafood-rules { grid-column: span 2; } /* Seafood also spans full width, appearing below Meat */
+
+            .input-box input {
+                max-width: none; 
+            }
+
             .action-key span {
-                display: inline-block; /* Horizontal layout on desktop */
+                display: inline-block; 
                 margin-right: 15px !important;
                 margin-bottom: 0;
             }
@@ -372,6 +392,7 @@
             </table>
         </div>
 
+        
         <div class="reference-section bakery-rules">
             <h3>🍞 Bakery Markdowns (By Shelf Life)</h3>
             <table class="rules-table">
@@ -540,6 +561,37 @@
                 <p style="border-left: 3px solid var(--action-system);">— <u>HIGH VOLUME STOCK (Any Ground)</u>: <span class="action-system">70% <u>SYSTEM DISCOUNT (Confirm with Manager)</u></span></p>
             </div>
         </div>
+        
+        <div class="reference-section seafood-rules" style="grid-column: span 2;">
+            <h3>🦞 Seafood Markdowns</h3>
+            <table class="rules-table">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Days Out</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4 Days Before Expiry</td>
+                        <td class="action-sticker"><u>$2.00 OFF STICKER</u></td>
+                    </tr>
+                    <tr>
+                        <td>3 Days Before Expiry</td>
+                        <td class="action-sticker"><u>30% OFF STICKER</u></td>
+                    </tr>
+                    <tr>
+                        <td>2 Days Before Expiry</td>
+                        <td class="action-sticker"><u>50% OFF STICKER</u></td>
+                    </tr>
+                    <tr>
+                        <td>1 Day or Same Day Expiry</td>
+                        <td class="action-sticker"><u>50% OFF STICKER</u></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 
